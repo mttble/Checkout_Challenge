@@ -9,6 +9,8 @@ const App = () => {
 
   const addPersonToLine = (e) => {
     e.preventDefault()
+    if (itemsInPersonCart === undefined || itemsInPersonCart <= 0) return
+
     let leastItemsAmount = 1e9;
     let lineWithLeast
     for (let line of lines) {
@@ -54,8 +56,8 @@ const App = () => {
       <div className="lines">
       {lines.map((line, idx) => (
         <div className="line" key={idx}>
-          {line.map((numberOfItems) => (
-          <div>{numberOfItems}</div>
+          {line.map((numberOfItems, lineIdx) => (
+          <div key={lineIdx}>{numberOfItems}</div>
           ))}
         </div>
       ))}
