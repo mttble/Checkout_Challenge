@@ -2,18 +2,34 @@ import React, { useState } from 'react'
 
 
 const App = () => {
-  const [items, setItems] = useState(0)
+  const [itemsInPersonCart, setItemsInPersonCart] = useState(0)
   const [lines, setLines] = useState([
-    [], [], [], [], []
+    [10, 5, 2], [1], [2], [3], [4]
   ])
+
+  const addPersonToLine = (e) => {
+    e.preventDefault()
+    let leastItemsAmount = 1e9;
+    let lineWithLeast
+    for (let line of lines) {
+      const totalInLine = line.reduce((sum,value) => sum + value, 0)
+      if (totalInLine < leastItemsAmount) {
+        leastItemsAmount = totalInLine
+        lineWithLeast = line
+      }
+    }
+  }
+
+
+
   return (
     <main className="App">
-      <form>
+      <form onSubmit={addPersonToLine}>
         <input
         required
         type="number"
-        value={items}
-        onChange={(e) => setItems(e.currentTarget.valueAsNumber)}
+        value={itemsInPersonCart}
+        onChange={(e) => setItemsInPersonCart(e.currentTarget.valueAsNumber)}
         ></input>
         <button>Checkout</button>
       </form>
