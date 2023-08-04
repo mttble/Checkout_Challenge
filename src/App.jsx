@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 
 const App = () => {
@@ -18,9 +18,27 @@ const App = () => {
         lineWithLeast = line
       }
     }
+
+    setLines((prevLines) =>
+      prevLines.map((line) =>
+        line === lineWithLeast ? [...line, itemsInPersonCart] : line
+      )
+    )
   }
 
+  useEffect(() => {
+    const interval = setInterval(() =>{
+      setLines(prevLines => {
+        return prevLines.map((line) => {
+          return [line[0]-1,...line.slice(1)].filter((value) => value > 0)
+        })
+      })
+    }, 2000)
 
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
 
   return (
     <main className="App">
@@ -34,9 +52,11 @@ const App = () => {
         <button>Checkout</button>
       </form>
       <div className="lines">
-      {lines.map((people, idx) => (
+      {lines.map((line, idx) => (
         <div className="line" key={idx}>
-          X
+          {line.map((numberOfItems) => (
+          <div>{numberOfItems}</div>
+          ))}
         </div>
       ))}
       </div>
